@@ -220,6 +220,266 @@
 }
 
 
+/* Wider layout for the Kanban board */
+.container {
+    max-width: 1100px;
+}
+
+/* Two-column board */
+.board {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.board-column {
+    background: #e9eef6;
+    padding: 18px;
+    border-radius: 12px;
+    min-width: 0;
+    min-height: 250px;
+}
+
+.board-column h2 {
+    font-size: 18px;
+    margin: 0 0 18px;
+    color: #334155;
+}
+
+/* Individual task cards */
+.task-column .task {
+    background: white;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 6px #00000008;
+}
+
+.task-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Mobile layout */
+@media (max-width: 700px) {
+    .board {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* THEME TOGGLE BUTTON */
+
+.theme-toggle {
+    background: #e2e8f0;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.theme-toggle:hover {
+    background: #cbd5e1;
+}
+
+/* SMOOTH TRANSITIONS */
+
+body,
+.card,
+.board-column,
+.task,
+.edit-form,
+input,
+textarea {
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+/* DARK MODE */
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+html[data-theme="dark"] body {
+    background: #0b1220;
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .card {
+    background: #111827;
+    box-shadow: 0 5px 20px #00000030;
+}
+
+html[data-theme="dark"] h1 {
+    color: #93c5fd;
+}
+
+/* Kanban columns */
+
+html[data-theme="dark"] .board-column {
+    background: #1e293b;
+}
+
+html[data-theme="dark"] .board-column h2 {
+    color: #e2e8f0;
+}
+
+/* Task cards */
+
+html[data-theme="dark"] .task,
+html[data-theme="dark"] .task-column .task {
+    background: #0f172a;
+    border-color: #334155;
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .task-title {
+    color: #f1f5f9;
+    background: transparent;
+}
+
+html[data-theme="dark"] .task-title:hover {
+    color: #93c5fd;
+    background: transparent;
+}
+
+html[data-theme="dark"] .task-description,
+html[data-theme="dark"] #status,
+html[data-theme="dark"] .card > p {
+    color: #94a3b8;
+}
+
+/* Edit form */
+
+html[data-theme="dark"] .edit-form {
+    background: #172033;
+}
+
+/* Form fields */
+
+html[data-theme="dark"] .task-form input,
+html[data-theme="dark"] .task-form textarea,
+html[data-theme="dark"] .edit-form input,
+html[data-theme="dark"] .edit-form textarea {
+    background: #0b1220;
+    color: #f1f5f9;
+    border-color: #475569;
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+    color: #94a3b8;
+}
+
+/* Edit button */
+
+html[data-theme="dark"] .edit-btn {
+    background: #1e3a8a;
+    color: #dbeafe;
+}
+
+html[data-theme="dark"] .edit-btn:hover {
+    background: #1d4ed8;
+}
+
+/* Theme button */
+
+html[data-theme="dark"] .theme-toggle {
+    background: #273449;
+    color: #f8fafc;
+    border-color: #475569;
+}
+
+html[data-theme="dark"] .theme-toggle:hover {
+    background: #334155;
+}
+
+
+/* Three-column Kanban board */
+
+.container {
+    max-width: 1250px;
+}
+
+.board {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Task status dropdown */
+
+.status-select {
+    padding: 7px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: white;
+    color: #334155;
+    font: inherit;
+    font-size: 12px;
+    max-width: 100%;
+}
+
+/* Dark mode support */
+
+html[data-theme="dark"] .status-select {
+    background: #0b1220;
+    color: #f1f5f9;
+    border-color: #475569;
+}
+
+/* Small screens */
+
+@media (max-width: 900px) {
+    .board {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* DRAG & DROP */
+
+.drag-handle {
+    cursor: grab;
+    font-size: 22px;
+    color: #64748b;
+    user-select: none;
+    padding: 2px 5px;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.task.dragging {
+    opacity: 0.45;
+}
+
+.task-column {
+    min-height: 180px;
+    border-radius: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.task-column.drag-over {
+    background: rgba(59, 130, 246, 0.12);
+    outline: 2px dashed #3b82f6;
+    outline-offset: -3px;
+}
+
+/* Dark mode */
+
+html[data-theme="dark"] .drag-handle {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .task-column.drag-over {
+    background: rgba(96, 165, 250, 0.14);
+}
+
 
 
     </style>
@@ -229,6 +489,11 @@
     <div class="container">
         <div class="card">
             <h1>My Task Tracker</h1>
+            
+            <button type="button" id="themeToggle" class="theme-toggle">
+                🌙 Dark Mode
+            </button>
+
             <p>Manage your tasks with ASP.NET Core.</p>
              
 
@@ -259,17 +524,73 @@
 
             <p id="status"></p>
 
-            <div id="taskList"></div>
+           
+<div class="board">
+
+    <!-- Колона за незавършени задачи -->
+    <section class="board-column">
+        <h2>To Do</h2>
+
+        <div id="todoList" class="task-column"></div>
+    </section>
+
+<section class="board-column">
+    <h2>In Progress</h2>
+
+    <div id="progressList" class="task-column"></div>
+</section>
+
+    <!-- Колона за завършени задачи -->
+    <section class="board-column">
+        <h2>Done</h2>
+
+        <div id="doneList" class="task-column"></div>
+    </section>
+
+</div>
+
         </div>
     </div>
 
     <script>
        
-async function loadTasks() {
-    const list = document.getElementById("taskList");
-    const status = document.getElementById("status");
+// Запазваме задачите, за да ги използваме при Drag & Drop
+let tasksById = new Map();
 
-    list.replaceChildren();
+// Една обща функция за промяна на статуса
+async function changeTaskStatus(task, newStatus) {
+    const response = await fetch(`/api/tasks/${task.id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: task.title,
+            description: task.description || "",
+            status: newStatus,
+            isCompleted: newStatus === "Done"
+        })
+    });
+
+    if (!response.ok) {
+        const message = await response.text();
+        throw new Error(`HTTP ${response.status}: ${message}`);
+    }
+
+    await loadTasks();
+}
+
+async function loadTasks() {
+    const todoList = document.getElementById("todoList");
+const doneList = document.getElementById("doneList");
+const progressList = document.getElementById("progressList");
+const status = document.getElementById("status");
+
+
+    todoList.replaceChildren();
+    doneList.replaceChildren();
+    progressList.replaceChildren();
+
     status.textContent = "Loading tasks...";
 
     try {
@@ -280,6 +601,7 @@ async function loadTasks() {
         }
 
         const tasks = await response.json();
+        tasksById = new Map(tasks.map(task => [task.id, task]));
         status.textContent = `${tasks.length} tasks found`;
 
         for (const task of tasks) {
@@ -288,12 +610,34 @@ async function loadTasks() {
 
             // HTML структура за всяка задача
             card.innerHTML = `
-                <div class="task-header">
-                    <input type="checkbox" class="task-check">
-                    <button type="button" class="task-title"></button>
-                    <button type="button" class="edit-btn">Edit</button>
-                    <button type="button" class="delete-btn">Delete</button>
-                </div>
+                
+                   
+                        <div class="task-header">
+
+                            <!-- Drag & Drop -->
+                            <span class="drag-handle"
+                                draggable="true"
+                                title="Drag task to another column">⠿</span>
+
+                            <!-- Един checkbox -->
+                            <input type="checkbox" class="task-check">
+
+                            <!-- Заглавие -->
+                            <button type="button" class="task-title"></button>
+
+                            <!-- Статус -->
+                            <select class="status-select">
+                                <option value="ToDo">To Do</option>
+                                <option value="InProgress">In Progress</option>
+                                <option value="Done">Done</option>
+                            </select>
+
+                            <!-- Бутони -->
+                            <button type="button" class="edit-btn">Edit</button>
+                            <button type="button" class="delete-btn">Delete</button>
+
+                        </div>
+
 
                 <p class="task-description" hidden></p>
 
@@ -311,11 +655,33 @@ async function loadTasks() {
                     </div>
                 </form>
             `;
+              
+const dragHandle = card.querySelector(".drag-handle");
 
+dragHandle.addEventListener("dragstart", (event) => {
+    event.dataTransfer.setData(
+        "text/plain",
+        String(task.id)
+    );
+
+    event.dataTransfer.effectAllowed = "move";
+    card.classList.add("dragging");
+});
+
+dragHandle.addEventListener("dragend", () => {
+    card.classList.remove("dragging");
+
+    document.querySelectorAll(".task-column")
+        .forEach(column => {
+            column.classList.remove("drag-over");
+        });
+});
+      
             const checkbox = card.querySelector(".task-check");
             const title = card.querySelector(".task-title");
             const description = card.querySelector(".task-description");
             const editButton = card.querySelector(".edit-btn");
+            const statusSelect = card.querySelector(".status-select");
             const deleteButton = card.querySelector(".delete-btn");
 
             const form = card.querySelector(".edit-form");
@@ -326,6 +692,7 @@ async function loadTasks() {
 
             // Показваме реалните данни от базата
             checkbox.checked = task.isCompleted;
+            statusSelect.value = task.status;
             checkbox.setAttribute("aria-label", `Complete ${task.title}`);
             title.textContent = task.title;
             title.classList.toggle("done", task.isCompleted);
@@ -337,7 +704,25 @@ async function loadTasks() {
             title.addEventListener("click", () => {
                 description.hidden = !description.hidden;
             });
+            
 
+statusSelect.addEventListener("change", async () => {
+    statusSelect.disabled = true;
+
+    try {
+        await changeTaskStatus(task, statusSelect.value);
+    } catch (error) {
+        console.error("Status update error:", error);
+
+        statusSelect.value = task.status;
+        statusSelect.disabled = false;
+
+        document.getElementById("status").textContent =
+            "Could not change task status.";
+    }
+});
+
+    
             // Checkbox -> PUT
             checkbox.addEventListener("change", async () => {
                 checkbox.disabled = true;
@@ -350,10 +735,11 @@ async function loadTasks() {
                         },
                         body: JSON.stringify({
                             title: task.title,
-                            description: task.description,
+                            description: task.description || "",
+                            status: checkbox.checked ? "Done" : "ToDo",
                             isCompleted: checkbox.checked
                         })
-                    });
+                            });
 
                     if (!response.ok) {
                         throw new Error("Update failed");
@@ -404,8 +790,8 @@ async function loadTasks() {
                         },
                         body: JSON.stringify({
                             title: newTitle,
-                            description: newDescription,
-                            isCompleted: task.isCompleted
+                            status: task.status,
+                            isCompleted: task.status === "Done"
                         })
                     });
 
@@ -446,12 +832,77 @@ async function loadTasks() {
                 }
             });
 
-            list.appendChild(card);
+            
+         
+            // Place each card in the correct column
+            if (task.status === "Done") {
+                doneList.appendChild(card);
+            } else if (task.status === "InProgress") {
+                progressList.appendChild(card);
+            } else {
+                todoList.appendChild(card);
+            }
+
+
         }
 
     } catch (error) {
         status.textContent = "Cannot load tasks. Check the API.";
     }
+}
+
+// DROP ZONES
+
+const dropZones = [
+    { id: "todoList", status: "ToDo" },
+    { id: "progressList", status: "InProgress" },
+    { id: "doneList", status: "Done" }
+];
+
+for (const zone of dropZones) {
+    const column = document.getElementById(zone.id);
+
+    // Позволяваме пускане в колоната
+    column.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "move";
+
+        column.classList.add("drag-over");
+    });
+
+    // Премахваме осветяването
+    column.addEventListener("dragleave", (event) => {
+        if (!column.contains(event.relatedTarget)) {
+            column.classList.remove("drag-over");
+        }
+    });
+
+    // Потребителят пуска задачата
+    column.addEventListener("drop", async (event) => {
+        event.preventDefault();
+
+        column.classList.remove("drag-over");
+
+        const taskId = Number(
+            event.dataTransfer.getData("text/plain")
+        );
+
+        const task = tasksById.get(taskId);
+
+        if (!task || task.status === zone.status) {
+            return;
+        }
+
+        try {
+            await changeTaskStatus(task, zone.status);
+
+        } catch (error) {
+            console.error("Drag & Drop error:", error);
+
+            document.getElementById("status").textContent =
+                "Could not move task.";
+        }
+    });
 }
 
      
@@ -479,6 +930,7 @@ document.getElementById("taskForm")
                 body: JSON.stringify({
                     title: title,
                     description: description,
+                    status: "ToDo",
                     isCompleted: false
                 })
             });
@@ -499,6 +951,52 @@ document.getElementById("taskForm")
                 .textContent = "Could not add task.";
         }
     });
+    
+
+// THEME SWITCHER
+
+const themeButton = document.getElementById("themeToggle");
+
+// Read the previously selected theme
+const savedTheme = localStorage.getItem("taskTrackerTheme");
+
+// Default theme is light
+document.documentElement.dataset.theme =
+    savedTheme === "dark" ? "dark" : "light";
+
+// Update the button text
+function updateThemeButton() {
+    const isDark =
+        document.documentElement.dataset.theme === "dark";
+
+    themeButton.textContent = isDark
+        ? "☀️ Light Mode"
+        : "🌙 Dark Mode";
+
+    themeButton.setAttribute(
+        "aria-pressed",
+        String(isDark)
+    );
+}
+
+// Switch between the themes
+themeButton.addEventListener("click", () => {
+
+    const isDark =
+        document.documentElement.dataset.theme === "dark";
+
+    const newTheme = isDark ? "light" : "dark";
+
+    document.documentElement.dataset.theme = newTheme;
+
+    // Remember the choice
+    localStorage.setItem("taskTrackerTheme", newTheme);
+
+    updateThemeButton();
+});
+
+// Set the initial button label
+updateThemeButton();
 
     loadTasks();
     </script>

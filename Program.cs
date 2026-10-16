@@ -106,9 +106,21 @@ app.MapPut("/api/tasks/{id:int}",
     }
 
     // Променяме данните
-    task.Title = updatedTask.Title;
-    task.Description = updatedTask.Description;
-    task.IsCompleted = updatedTask.IsCompleted;
+   
+if (updatedTask.Status != "ToDo" &&
+    updatedTask.Status != "InProgress" &&
+    updatedTask.Status != "Done")
+{
+    return Results.BadRequest("Invalid task status.");
+}
+
+task.Title = updatedTask.Title;
+task.Description = updatedTask.Description;
+task.Status = updatedTask.Status;
+
+// Поддържаме старото поле синхронизирано
+task.IsCompleted = task.Status == "Done";
+
 
     // Записваме промените в SQLite
     await db.SaveChangesAsync();
