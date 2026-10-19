@@ -23,13 +23,15 @@ export default function DraggableTask({
     disabled: editing
   });
 
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-        position: "relative",
-        zIndex: 100
-      }
-    : undefined;
+  
+const style = transform && !isDragging
+  ? {
+      transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+      position: "relative",
+      zIndex: 100
+    }
+  : undefined;
+
 
   function startEditing() {
     setTitle(task.title);

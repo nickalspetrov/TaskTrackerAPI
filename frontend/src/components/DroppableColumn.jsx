@@ -6,7 +6,8 @@ export default function DroppableColumn({
   id,
   title,
   children,
-  onAddTask
+  onAddTask,
+  taskCount
 }) {
   const { setNodeRef, isOver } = useDroppable({ id });
 
@@ -73,6 +74,9 @@ export default function DroppableColumn({
           </form>
         ) : (
           <div className="column-title-row">
+             <span className="column-count">
+                {taskCount}
+            </span>
             <h2>{columnTitle}</h2>
 
             <button

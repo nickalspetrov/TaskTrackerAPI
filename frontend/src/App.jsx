@@ -1,6 +1,4 @@
-
-
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
 import DraggableTask from "./components/DraggableTask";
 import DroppableColumn from "./components/DroppableColumn";
 
@@ -11,6 +9,33 @@ const columns = [
   { id: "Done", title: "Done" }
 ];
 
+
+async function readApiError(response) {
+  const text = await response.text();
+
+  try {
+    const data = JSON.parse(text);
+
+    if (typeof data === "string") {
+      return data;
+    }
+
+    // ASP.NET Core ValidationProblemDetails
+    if (data.errors) {
+      const messages = Object.values(data.errors).flat();
+
+      if (messages.length > 0) {
+        return messages.join(" ");
+      }
+    }
+
+    return data.detail || data.title ||
+      `HTTP error ${response.status}`;
+
+  } catch {
+    return text || `HTTP error ${response.status}`;
+  }
+}
 
 
 export default function App() {
@@ -44,6 +69,24 @@ const [editedTask, setEditedTask] = useState(null);
 const [detailsBusy, setDetailsBusy] = useState(false);
 const [detailsError, setDetailsError] = useState("");
 
+const [toast, setToast] = useState(null);
+const [activeTask, setActiveTask] = useState(null);
+
+
+const [searchQuery, setSearchQuery] = useState("");
+
+
+useEffect(() => {
+  if (!toast) return;
+
+  const timer = setTimeout(() => {
+    setToast(null);
+  }, 3000);
+
+  return () => clearTimeout(timer);
+}, [toast]);
+
+
 useEffect(() => {
   async function loadTasks() {
     try {
@@ -70,6 +113,7 @@ useEffect(() => {
   loadTasks();
 }, []);
 async function handleDragEnd(event) {
+  setActiveTask(null);
   const { active, over } = event;
 
   // Ако задачата е пусната извън колоните
@@ -124,6 +168,10 @@ async function handleDragEnd(event) {
       )
     );
 
+  setToast({ message: "Task moved successfully!" });
+
+  setToast({ message: "Task moved successfully!" });
+
     setError("");
   } catch (err) {
     console.error("Failed to move task:", err);
@@ -167,7 +215,7 @@ async function handleCreateTask(event) {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+    throw new Error(await readApiError(response));
     }
 
     const createdTask = await response.json();
@@ -180,12 +228,15 @@ async function handleCreateTask(event) {
 
     // Затваряме popup-а
     setNewTask(null);
-
+    setToast({ message: "Task created successfully!" });
   } catch (error) {
-    console.error("Failed to create task:", error);
-    setCreateError("Could not create task.");
-  } finally {
-    setCreating(false);
+  console.error("Failed to create task:", error);
+
+  setCreateError(
+    error.message || "Could not create task."
+  );
+} finally {
+  setCreating(false);
   }
 }
 
@@ -232,7 +283,7 @@ async function handleSaveTask(event) {
     );
 
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+      throw new Error(await readApiError(response));
     }
 
     setTasks((previousTasks) =>
@@ -245,12 +296,16 @@ async function handleSaveTask(event) {
 
     setSelectedTask(null);
     setEditedTask(null);
+    setToast({ message: "Task updated successfully!" });
 
   } catch (error) {
-    console.error("Failed to update task:", error);
-    setDetailsError("Could not save task changes.");
-  } finally {
-    setDetailsBusy(false);
+  console.error("Failed to update task:", error);
+
+  setDetailsError(
+    error.message || "Could not save task changes."
+  );
+} finally {
+  setDetailsBusy(false);
   }
 }
 
@@ -286,6 +341,7 @@ async function handleDeleteTask() {
 
     setSelectedTask(null);
     setEditedTask(null);
+    setToast({ message: "Task deleted successfully!" });
 
   } catch (error) {
     console.error("Failed to delete task:", error);
@@ -328,6 +384,16 @@ async function renameTask(task, newTitle) {
   );
 }
 
+function handleDragStart(event) {
+  const taskId = Number(
+    String(event.active.id).replace("task-", "")
+  );
+
+  const task = tasks.find((t) => t.id === taskId);
+
+  setActiveTask(task ?? null);
+}
+
   return (
     <main className="app">
       <header className="app-header">
@@ -349,8 +415,34 @@ async function renameTask(task, newTitle) {
         {error && <p style={{ color: "crimson" }}>{error}</p>}
       </header>
 
+<div className="task-search">
+  <input
+    type="search"
+    placeholder="🔍 Search tasks by title..."
+    aria-label="Search tasks"
+    value={searchQuery}
+    onChange={(event) =>
+      setSearchQuery(event.target.value)
+    }
+  />
+
+  {searchQuery && (
+    <button
+      type="button"
+      onClick={() => setSearchQuery("")}
+      aria-label="Clear search"
+    >
+      Clear
+    </button>
+  )}
+</div>
+
       
-<DndContext onDragEnd={handleDragEnd}>
+<DndContext
+  onDragStart={handleDragStart}
+  onDragEnd={handleDragEnd}
+  onDragCancel={() => setActiveTask(null)}
+>
   <div className="board">
     {columns.map((column) => (
       <DroppableColumn
@@ -358,10 +450,17 @@ async function renameTask(task, newTitle) {
         id={column.id}
         title={column.title}
         onAddTask={openNewTask}
-
+        taskCount={
+        tasks.filter((task) => task.status === column.id).length
+        }
       >
         {tasks
-          .filter((task) => task.status === column.id)
+          .filter((task) =>
+          task.status === column.id &&
+          task.title
+            .toLowerCase()
+              .includes(searchQuery.trim().toLowerCase())
+) 
           .map((task) => (
             <DraggableTask
               key={task.id}
@@ -374,6 +473,15 @@ async function renameTask(task, newTitle) {
       </DroppableColumn>
     ))}
   </div>
+  
+<DragOverlay>
+  {activeTask ? (
+    <div className="task-card drag-overlay-card">
+      <strong>{activeTask.title}</strong>
+      <span>Moving task...</span>
+    </div>
+  ) : null}
+</DragOverlay>
 </DndContext>
 
 {newTask && (
@@ -599,6 +707,13 @@ async function renameTask(task, newTitle) {
         </div>
       </form>
     </section>
+  </div>
+)}
+
+{toast && (
+  <div className="toast-notification" role="status">
+    <span className="toast-icon">✓</span>
+    <span>{toast.message}</span>
   </div>
 )}
 

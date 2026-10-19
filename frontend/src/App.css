@@ -1026,3 +1026,320 @@ html[data-theme="dark"] .column-title-form input {
 html[data-theme="dark"] .column-edit-btn {
   color: #e2e8f0;
 }
+
+/* ===== TOAST NOTIFICATIONS ===== */
+
+.toast-notification {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 2000;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  max-width: calc(100vw - 48px);
+  padding: 16px 22px;
+
+  background: #dcfce7;
+  color: #166534;
+
+  border: 1px solid #86efac;
+  border-radius: 12px;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  animation: toast-in 0.25s ease-out;
+}
+
+.toast-icon {
+  font-size: 20px;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dark Mode */
+
+html[data-theme="dark"] .toast-notification {
+  background: #14532d;
+  color: #dcfce7;
+  border-color: #166534;
+}
+
+/* ===== IMPROVED DRAG & DROP ===== */
+
+/* Smooth visual effects */
+
+.draggable-task {
+  transition:
+    scale 0.18s ease,
+    opacity 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+/* While dragging */
+
+.draggable-task.dragging {
+  opacity: 0.9;
+  scale: 1.03;
+  cursor: grabbing;
+
+  border-color: #3b82f6;
+
+  box-shadow:
+    0 18px 35px rgba(15, 23, 42, 0.25);
+}
+
+/* Drag handle */
+
+.drag-handle {
+  padding: 6px;
+  border-radius: 8px;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.drag-handle:hover {
+  background: rgba(59, 130, 246, 0.15);
+  color: #2563eb;
+}
+
+/* Drop zones */
+
+.board-column {
+  transition:
+    box-shadow 0.2s ease,
+    outline-color 0.2s ease;
+}
+
+.board-column.drop-over {
+  outline: 2px dashed #3b82f6;
+  outline-offset: -8px;
+
+  box-shadow:
+    inset 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+/* Dark Mode */
+
+html[data-theme="dark"] .draggable-task.dragging {
+  border-color: #60a5fa;
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="dark"] .drag-handle:hover {
+  background: #334155;
+  color: #93c5fd;
+}
+
+html[data-theme="dark"] .board-column.drop-over {
+  outline-color: #60a5fa;
+
+  box-shadow:
+    inset 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+/* ===== IMPROVED DRAG & DROP ===== */
+
+/* Smooth visual effects */
+
+.draggable-task {
+  transition:
+    scale 0.18s ease,
+    opacity 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+/* While dragging */
+
+.draggable-task.dragging {
+  opacity: 0.9;
+  scale: 1.03;
+  cursor: grabbing;
+
+  border-color: #3b82f6;
+
+  box-shadow:
+    0 18px 35px rgba(15, 23, 42, 0.25);
+}
+
+/* Drag handle */
+
+.drag-handle {
+  padding: 6px;
+  border-radius: 8px;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.drag-handle:hover {
+  background: rgba(59, 130, 246, 0.15);
+  color: #2563eb;
+}
+
+/* Drop zones */
+
+.board-column {
+  transition:
+    box-shadow 0.2s ease,
+    outline-color 0.2s ease;
+}
+
+.board-column.drop-over {
+  outline: 2px dashed #3b82f6;
+  outline-offset: -8px;
+
+  box-shadow:
+    inset 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+/* Dark Mode */
+
+html[data-theme="dark"] .draggable-task.dragging {
+  border-color: #60a5fa;
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="dark"] .drag-handle:hover {
+  background: #334155;
+  color: #93c5fd;
+}
+
+html[data-theme="dark"] .board-column.drop-over {
+  outline-color: #60a5fa;
+
+  box-shadow:
+    inset 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+/* ===== DRAG OVERLAY ===== */
+
+.draggable-task.dragging {
+  opacity: 0.25;
+  scale: 1;
+  box-shadow: none;
+}
+
+.drag-overlay-card {
+  width: min(340px, 80vw);
+  margin: 0;
+  pointer-events: none;
+  cursor: grabbing;
+
+  border: 2px solid #3b82f6;
+  box-shadow: 0 22px 45px rgba(15, 23, 42, 0.28);
+
+  transform: rotate(2deg);
+}
+
+html[data-theme="dark"] .drag-overlay-card {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-color: #60a5fa;
+
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== TASK SEARCH ===== */
+
+.task-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(460px, 100%);
+  margin-bottom: 28px;
+}
+
+.task-search input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 18px;
+
+  background: #ffffff;
+  color: #1e293b;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+
+  font: inherit;
+  font-size: 14px;
+}
+
+.task-search input:focus {
+  outline: 2px solid #3b82f6;
+  border-color: transparent;
+}
+
+.task-search button {
+  border: none;
+  border-radius: 9px;
+  padding: 13px;
+
+  background: #e2e8f0;
+  color: #334155;
+  cursor: pointer;
+}
+
+/* Dark Mode */
+
+html[data-theme="dark"] .task-search input {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-color: #475569;
+}
+
+html[data-theme="dark"] .task-search button {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+/* ===== COLUMN TASK COUNTER ===== */
+
+.column-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 26px;
+  height: 26px;
+  padding: 0 8px;
+
+  background: #ffffff;
+  color: #475569;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Dark Mode */
+
+html[data-theme="dark"] .column-count {
+  background: #334155;
+  color: #f1f5f9;
+  border-color: #475569;
+}
